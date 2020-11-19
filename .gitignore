@@ -1,0 +1,23 @@
+# Build outputs
+**/x64
+**/Debug
+**/Release*
+**/obj
+
+# Example outputs
+*.tif
+*.nsihdr
+examples/**/*.dll
+
+!examples/example.nsihdr
+!examples/example_output.tif
+
+# Objs
+*.exp
+*.iobj
+*.ipdb
+
+# Other
+*.vcxproj.user
+.idea/
+.vs/
