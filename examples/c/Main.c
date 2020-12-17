@@ -19,6 +19,7 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "efX_SDK.h"
+#include <stdlib.h>
 
 int main()
 {
@@ -26,7 +27,8 @@ int main()
 	nsi_efx_volume_open(vol, "example.nsihdr");
 
 	uint32_t height, width;
-	nsi_efx_volume_slice_height(vol, &height, &width);
+	nsi_efx_volume_slice_height(vol, &height);
+	nsi_efx_volume_slice_width(vol, &width);
 
 	float* slice = (float*)malloc(sizeof(float) * width * height);
 	nsi_efx_volume_read_slice(vol, slice, 39);

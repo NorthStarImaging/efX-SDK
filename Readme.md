@@ -1,5 +1,5 @@
-# NSI efX SDK
-
+# NSI efX SDK 1.0
+ 
 Software Development Kit for reading slices from .nsivol and .nsihdr file formats.
 
 Includes bindings for C, C++, C#, and Python.
