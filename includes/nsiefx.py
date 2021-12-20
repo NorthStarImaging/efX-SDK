@@ -19,6 +19,7 @@
 # USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from ctypes import *
+from enum import IntEnum
 
 shared_lib_path = "./efX-SDK.dll"
 try:
@@ -34,7 +35,7 @@ vol_delete = efx_sdk.nsi_efx_volume_delete
 vol_delete.argtypes = [c_void_p]
 
 vol_open = efx_sdk.nsi_efx_volume_wopen
-vol_open.restype = c_bool
+vol_open.restype = c_uint
 vol_open.argtypes = [c_void_p, c_wchar_p]
 
 vol_close = efx_sdk.nsi_efx_volume_close
@@ -72,6 +73,12 @@ vol_read_slice.argtypes = [c_void_p, c_void_p, c_uint]
 save_gray_tif32 = efx_sdk.nsi_efx_save_gray_tif32_w
 save_gray_tif32.restype = c_bool
 save_gray_tif32.argtypes = [c_wchar_p, c_void_p, c_uint, c_uint]
+
+class NsiError(IntEnum):
+	SUCCESS = 0
+	ERROR_INVALID_FILE = 100
+	ERROR_UNSUPPORTED_HDR_VERSION = 200
+	ERROR_UNSPECIFIED = 9999
 
 
 class efXVolume:
@@ -146,8 +153,9 @@ def open(filename):
             self.handle = vol_create()
             self.volume = efXVolume(self.handle)
             try:
-                if not self.volume.open(self.filename):
-                    raise Exception("Failed to open file")
+                err = self.volume.open(self.filename)
+                if err != NsiError.SUCCESS:
+                    raise Exception("Failed to open file", err)
             except Exception:
                 vol_delete(self.handle)
                 raise

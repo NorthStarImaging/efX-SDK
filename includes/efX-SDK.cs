@@ -26,11 +26,19 @@ namespace NSI
     class efX
     {
 
+        public enum NSI_ERROR
+        {
+            SUCCESS = 0,
+            ERROR_INVALID_FILE = 100,
+            ERROR_UNSUPPORTED_HDR_VERSION = 200,
+            ERROR_UNSPECIFIED = 9999
+        }
+
         [DllImport("efX-SDK.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private extern static IntPtr nsi_efx_volume_create();
 
         [DllImport("efX-SDK.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private extern static bool nsi_efx_volume_wopen(IntPtr handle, string fname);
+        private extern static NSI_ERROR nsi_efx_volume_wopen(IntPtr handle, string fname);
 
         [DllImport("efX-SDK.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private extern static void nsi_efx_volume_slice_width(IntPtr handle, ref UInt32 width);
@@ -91,8 +99,9 @@ namespace NSI
 
             public void open(string fname)
             {
-                if (!nsi_efx_volume_wopen(handle, fname))
-                    throw new System.IO.IOException("Failed to open file");
+                NSI_ERROR err = nsi_efx_volume_wopen(handle, fname);
+                if (err != NSI_ERROR.SUCCESS)
+                    throw new System.IO.IOException("Failed to open file", (int)err);
             }
 
             public void close()

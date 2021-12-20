@@ -36,6 +36,16 @@
 #define EFX_API __declspec(dllimport)
 #endif
 
+typedef enum {
+	// No errors
+	NSI_SUCCESS = 0,
+	// File does not exist, is not readable, or is an invalid format
+	NSI_ERROR_INVALID_FILE = 100,
+	// .nsihdr file is a version newer than what the SDK supports (SDK requires updating)
+	NSI_ERROR_UNSUPPORTED_HDR_VERSION = 200,
+	// Other
+	NSI_ERROR_UNSPECIFIED = 9999
+} NSI_ERROR;
 
 #ifdef __cplusplus
 namespace NSI {
@@ -80,10 +90,10 @@ public:
 	virtual ~Volume() = 0;
 
 	// open an nsihdr
-	virtual bool open(const char* fname) = 0;
+	virtual NSI_ERROR open(const char* fname) = 0;
 
 	// open an nsihdr
-	virtual bool open(const wchar_t* fname) = 0;
+	virtual NSI_ERROR open(const wchar_t* fname) = 0;
 
 	// read a y-slice (rows X cols == res.i X res.k)
 	virtual bool read_slice(float* slice, uint32_t slice_idx) = 0;
@@ -112,11 +122,11 @@ extern "C"
 
 	EFX_API
 	// open an nsihdr
-	bool nsi_efx_volume_open(NSIVolume* handle, const char* fname);
+	NSI_ERROR nsi_efx_volume_open(NSIVolume* handle, const char* fname);
 
 	EFX_API
 	// open an nsihdr
-	bool nsi_efx_volume_wopen(NSIVolume* handle, const wchar_t* fname);
+	NSI_ERROR nsi_efx_volume_wopen(NSIVolume* handle, const wchar_t* fname);
 
 	// resolution (voxels)
 	EFX_API void nsi_efx_volume_slice_width(NSIVolume* handle, uint32_t* w);
