@@ -162,7 +162,7 @@ namespace NSI
             public double data_max()
             {
                 double max = 0;
-                nsi_efx_volume_data_min(handle, ref max);
+                nsi_efx_volume_data_max(handle, ref max);
                 return max;
             }
 
