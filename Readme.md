@@ -41,5 +41,5 @@ delete vol;
 delete[] slice;
 ```
 
-## Copyright 2020 North Star Imaging
+## Copyright 2022 North Star Imaging
 Licensed under BSD-3-Clause. See [LICENSE](LICENSE) for more information.

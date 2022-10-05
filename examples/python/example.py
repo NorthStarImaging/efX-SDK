@@ -1,4 +1,4 @@
-# Copyright (c) 2020 North Star Imaging, Inc.
+# Copyright (c) 2022 North Star Imaging, Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
