@@ -16,8 +16,11 @@ examples/**/*.dll
 *.exp
 *.iobj
 *.ipdb
+*.pdb
 
 # Other
+*.csproj.user
 *.vcxproj.user
 .idea/
 .vs/
+__pycache__
