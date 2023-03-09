@@ -33,6 +33,7 @@ namespace csharpExample
 
             using (efX.Volume vol = efX.Init())
             {
+                Console.WriteLine("SDK Version: " + vol.sdk_version());
                 vol.open(vol_fname);
                 Console.WriteLine("Open volume: Success");
 

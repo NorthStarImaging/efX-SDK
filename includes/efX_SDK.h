@@ -89,6 +89,8 @@ public:
 
 	virtual ~Volume() = 0;
 
+	virtual void destroy() = 0;
+
 	// open an nsihdr
 	virtual NSI_ERROR open(const char* fname) = 0;
 
@@ -100,6 +102,9 @@ public:
 
 	// close an nsihdr
 	virtual bool close() = 0;
+
+	// read the loaded SDK version string into the buffer and return the length
+	virtual uint32_t sdk_version(char* buffer, uint32_t buffer_length) = 0;
 };
 
 
@@ -168,6 +173,10 @@ extern "C"
 	EFX_API
 	// close an nsihdr
 	bool nsi_efx_volume_close(NSIVolume* handle);
+
+	EFX_API
+	// get the loaded SDK version
+	uint32_t nsi_efx_volume_sdk_version(NSIVolume* handle, char* buffer, uint32_t buffer_length);
 #ifdef __cplusplus
 }
 #endif

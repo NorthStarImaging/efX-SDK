@@ -44,6 +44,7 @@ if __name__ == "__main__":
     slice_fname = "slice.tif"
 
     with nsiefx.open(vol_fname) as volume:
+        print("SDK Version: " + volume.sdk_version())
         print(volume.slice_width())
         print(volume.slice_height())
         print(volume.num_slices())

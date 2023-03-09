@@ -70,6 +70,10 @@ vol_read_slice = efx_sdk.nsi_efx_volume_read_slice
 vol_read_slice.restype = c_bool
 vol_read_slice.argtypes = [c_void_p, c_void_p, c_uint]
 
+vol_sdk_version = efx_sdk.nsi_efx_volume_sdk_version
+vol_sdk_version.restype = c_uint
+vol_sdk_version.argtypes = [c_void_p, c_char_p, c_uint]
+
 save_gray_tif32 = efx_sdk.nsi_efx_save_gray_tif32_w
 save_gray_tif32.restype = c_bool
 save_gray_tif32.argtypes = [c_wchar_p, c_void_p, c_uint, c_uint]
@@ -142,6 +146,12 @@ class efXVolume:
         if not vol_read_slice(self.handle, cast(slice, c_void_p), c_uint(int(sliceidx))):
             raise Exception("Failed to read slice")
         return slice
+
+    def sdk_version(self):
+        buffer_length = 255
+        buffer = create_string_buffer(buffer_length)
+        vol_sdk_version(self.handle, buffer, buffer_length)
+        return buffer.value.decode()
 
 
 def open(filename):

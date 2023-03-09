@@ -20,6 +20,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace NSI
 {
@@ -75,6 +76,9 @@ namespace NSI
 
         [DllImport("efX-SDK.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private extern static void nsi_efx_volume_delete(IntPtr handle);
+
+        [DllImport("efX-SDK.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private extern static int nsi_efx_volume_sdk_version(IntPtr handle, StringBuilder buffer, int buffer_length);
 
         public struct Vec3d
         {
@@ -172,6 +176,13 @@ namespace NSI
                 if (!nsi_efx_volume_read_slice(handle, slice, sliceidx))
                     throw new System.IO.IOException("Failed to read slice");
                 return slice;
+            }
+
+            public string sdk_version()
+            {
+                StringBuilder buffer = new StringBuilder(255);
+                nsi_efx_volume_sdk_version(handle, buffer, buffer.Capacity);
+                return buffer.ToString();
             }
         }
 

@@ -37,7 +37,7 @@ vol->read_slice(slice, 100); // Read 100th slice
 
 6. Cleanup when done using slice and volume
 ```c++
-delete vol;
+vol->destroy();
 delete[] slice;
 ```
 

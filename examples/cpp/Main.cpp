@@ -32,6 +32,6 @@ int main()
 
 	nsi_efx_save_gray_tif32_w(L"slice.tif", slice, vol->slice_height(), vol->slice_width());
 
-	delete vol;
+	vol->destroy();
 	delete[] slice;
 }
