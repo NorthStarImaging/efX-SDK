@@ -1,4 +1,4 @@
-# NSI efX SDK 1.0
+# NSI efX SDK 1.1
  
 Software Development Kit for reading slices from .nsivol and .nsihdr file formats.
 
@@ -41,5 +41,11 @@ vol->destroy();
 delete[] slice;
 ```
 
-## Copyright 2022 North Star Imaging
+## Support for future NSI efX volume formats
+
+North Star Imaging will continue to update efX-SDK to support changes to the NSI efX volume format.
+Additionally, updates to the volume format can be separately installed without updating the software that uses efX-SDK.
+These updates are automatically included in efX-ct and are also available as windows installers at https://github.com/NorthStarImaging/efX-SDK/releases
+
+## Copyright 2021 - 2023 North Star Imaging
 Licensed under BSD-3-Clause. See [LICENSE](LICENSE) for more information.
