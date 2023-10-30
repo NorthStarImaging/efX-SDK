@@ -47,6 +47,15 @@ typedef enum {
 	NSI_ERROR_UNSPECIFIED = 9999
 } NSI_ERROR;
 
+typedef enum {
+	// 32bit float
+	NSI_FLOAT32 = 32,
+	// 16bit integer (short)
+	NSI_INT16 = 16,
+	// 8bit integer (char)
+	NSI_INT8 = 8 
+} NSI_DATA_TYPE;
+
 #ifdef __cplusplus
 namespace NSI {
 namespace efX {
@@ -85,6 +94,9 @@ public:
 	// maximum voxel value
 	virtual double data_max() const = 0;
 
+	// data type of voxels on disk
+	virtual NSI_DATA_TYPE data_type() const = 0;
+
 	static Volume* Create();
 
 	virtual ~Volume() = 0;
@@ -105,6 +117,12 @@ public:
 
 	// read the loaded SDK version string into the buffer and return the length
 	virtual uint32_t sdk_version(char* buffer, uint32_t buffer_length) = 0;
+
+	// get the path to the external SDK DLL if one has been loaded
+	virtual uint32_t external_sdk_path(char* buffer, uint32_t buffer_length) = 0;
+
+	// get the path to the external SDK DLL if one has been loaded
+	virtual uint32_t external_sdk_path(wchar_t* buffer, uint32_t buffer_length) = 0;
 };
 
 
@@ -113,10 +131,8 @@ public:
 
 extern "C"
 {
-	typedef NSI::efX::Volume NSIVolume;
-#else
-    typedef struct NSIVolume NSIVolume;
 #endif
+    typedef struct NSIVolume NSIVolume;
 	EFX_API
 	// create a volume handle
 	NSIVolume* nsi_efx_volume_create();
@@ -159,6 +175,10 @@ extern "C"
 	void nsi_efx_volume_data_max(NSIVolume* handle, double* max);
 
 	EFX_API
+	// data type of voxels on disk
+	NSI_DATA_TYPE nsi_efx_volume_data_type(NSIVolume* handle);
+
+	EFX_API
 	// read a y-slice (rows X cols == res.i X res.k)
 	bool nsi_efx_volume_read_slice(NSIVolume* handle, float* slice, uint32_t slice_idx);
 
@@ -175,8 +195,16 @@ extern "C"
 	bool nsi_efx_volume_close(NSIVolume* handle);
 
 	EFX_API
-	// get the loaded SDK version
+	// read the loaded SDK version string into the buffer and return the length
 	uint32_t nsi_efx_volume_sdk_version(NSIVolume* handle, char* buffer, uint32_t buffer_length);
+
+	EFX_API
+	// get the path to the external SDK DLL if one has been loaded
+	uint32_t nsi_efx_volume_external_sdk_path(NSIVolume* handle, char* buffer, uint32_t buffer_length);
+
+	EFX_API
+	// get the path to the external SDK DLL if one has been loaded
+	uint32_t nsi_efx_volume_external_sdk_path_w(NSIVolume* handle, wchar_t* buffer, uint32_t buffer_length);
 #ifdef __cplusplus
 }
 #endif
